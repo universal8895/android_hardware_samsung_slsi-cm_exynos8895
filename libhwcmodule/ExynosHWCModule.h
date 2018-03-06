@@ -20,9 +20,9 @@
 #include <hardware/hwcomposer.h>
 #include "decon.h"
 
-#define VSYNC_DEV_PREFIX "/sys/devices/"
+#define VSYNC_DEV_PREFIX "/sys/devices/platform/"
 #define VSYNC_DEV_MIDDLE ""
-#define VSYNC_DEV_NAME  "13930000.decon_fb/vsync"
+#define VSYNC_DEV_NAME  "12860000.decon_f/vsync"
 
 #define FIMD_WORD_SIZE_BYTES   16
 #define FIMD_BURSTLEN   8
@@ -81,32 +81,26 @@ inline decon_pixel_format halFormatToSocFormat(int format)
 
 static decon_idma_type getIdmaType(int32_t index)
 {
-    decon_idma_type ret = IDMA_G0;
+    decon_idma_type ret = IDMA_G1;
 
     switch(index) {
     case 0:
-        ret = IDMA_G0;
-        break;
-    case 1:
         ret = IDMA_G1;
         break;
-    case 2:
+    case 1:
         ret = IDMA_VG0;
         break;
-    case 3:
+    case 2:
         ret = IDMA_VG1;
         break;
+    case 3:
+        ret = IDMA_VGF0;
+        break;
     case 4:
-        ret = IDMA_VGR0;
+        ret = IDMA_VGF1;
         break;
     case 5:
-        ret = IDMA_VGR1;
-        break;
-    case 6:
-        ret = IDMA_G2;
-        break;
-    case 7:
-        ret = IDMA_G3;
+        ret = IDMA_G0;
         break;
     default:
         ALOGE("%s: cannot handle index %d", __func__, index);
@@ -121,8 +115,8 @@ static bool isVppType(enum decon_idma_type idma_type)
     switch (idma_type) {
     case IDMA_VG0:
     case IDMA_VG1:
-    case IDMA_VGR0:
-    case IDMA_VGR1:
+    case IDMA_VGF0:
+    case IDMA_VGF1:
         return true;
     default:
         return false;
