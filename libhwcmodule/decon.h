@@ -155,40 +155,21 @@ struct decon_win_config_data {
 };
 
 /* IOCTL commands */
+#define S3CFB_WIN_POSITION		_IOW('F', 203, \
+						struct decon_user_window)
+#define S3CFB_WIN_SET_PLANE_ALPHA	_IOW('F', 204, \
+						struct s3c_fb_user_plane_alpha)
+#define S3CFB_WIN_SET_CHROMA		_IOW('F', 205, \
+						struct s3c_fb_user_chroma)
 #define S3CFB_SET_VSYNC_INT		_IOW('F', 206, __u32)
-#define S3CFB_DECON_SELF_REFRESH	_IOW('F', 207, __u32)
+
+#define S3CFB_GET_ION_USER_HANDLE	_IOWR('F', 208, \
+						struct s3c_fb_user_ion_client)
 #define S3CFB_WIN_CONFIG		_IOW('F', 209, \
 						struct decon_win_config_data)
+#define S3CFB_WIN_PSR_EXIT		_IOW('F', 210, int)
 
-#define S3CFB_START_CRC			_IOW('F', 270, u32)
-#define S3CFB_SEL_CRC_BITS		_IOW('F', 271, u32)
-#define S3CFB_GET_CRC_DATA		_IOR('F', 272, u32)
-
-#define EXYNOS_GET_DISPLAYPORT_CONFIG		_IOW('F', 300, \
-						struct exynos_displayport_data)
-#define EXYNOS_SET_DISPLAYPORT_CONFIG		_IOW('F', 301, \
-						struct exynos_displayport_data)
-#define EXYNOS_DPU_DUMP		_IOW('F', 302, \
-						struct decon_win_config_data)
-#define S3CFB_POWER_MODE		_IOW('F', 223, __u32)
-enum doze_mode {
-	DECON_PWR_OFF = 0,
-	DECON_PWR_DOZE,
-	DECON_PWR_NORMAL,
-	DECON_PWR_DOZE_SUSPEND,
-	DECON_PWR_MAX,
-};
-
-#define V4L2_EVENT_DECON				(V4L2_EVENT_PRIVATE_START + 1000)
-#define V4L2_EVENT_DECON_FRAME_START	(V4L2_EVENT_DECON + 1)
-#define V4L2_EVENT_DECON_FRAME_DONE		(V4L2_EVENT_DECON + 2)
-#define V4L2_EVENT_DECON_VSYNC			(V4L2_EVENT_DECON + 3)
-
-#ifdef CONFIG_SUPPORT_DSU
-int dsu_win_config(struct decon_device *decon, struct decon_win_config *windata, struct decon_reg_data *regs);
-void dpu_dump_winconfig(struct decon_device *decon, struct decon_win_config *windata);
-int dpu_set_dsu_update_config(struct decon_device *decon, struct decon_reg_data *regs);
-void decon_set_dsu_update(u32 id, enum decon_dsi_mode dsi_mode, struct decon_param *p);
-#endif
+#define DECON_IOC_LPD_EXIT_LOCK		_IOW('L', 0, u32)
+#define DECON_IOC_LPD_UNLOCK		_IOW('L', 1, u32)
 
 #endif /* ___SAMSUNG_DECON_H__ */
